@@ -1,14 +1,23 @@
 import { useState } from "react"
 
 function AdminLogin() {
-
   const [username, setUsername] =
     useState("")
 
   const [password, setPassword] =
     useState("")
 
-  function handleSubmit(
+  const [loading, setLoading] =
+    useState(false)
+
+  const [error, setError] =
+    useState("")
+
+  const [success, setSuccess] =
+    useState(false)
+
+
+  async function handleSubmit(
     e: React.FormEvent
   ) {
     e.preventDefault()
@@ -20,8 +29,81 @@ function AdminLogin() {
       return
     }
 
-    console.log("Admin login test")
+    setLoading(true)
+    setError("")
+
+    try {
+      const response = await fetch(
+        "/.netlify/functions/admin-login",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            username: username.trim(),
+            password: password,
+          }),
+        }
+      )
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError(
+          data.message ||
+          "اسم المستخدم أو كلمة المرور غير صحيحة."
+        )
+
+        return
+      }
+
+      setSuccess(true)
+
+    } catch (error) {
+      console.error(
+        "ADMIN LOGIN ERROR:",
+        error
+      )
+
+      setError(
+        "حدث خطأ أثناء الاتصال بالخادم."
+      )
+
+    } finally {
+      setLoading(false)
+    }
   }
+
+
+  if (success) {
+    return (
+      <main
+        className="admin-page"
+        dir="rtl"
+      >
+        <div className="admin-login-card">
+
+          <div className="admin-icon">
+            ✓
+          </div>
+
+          <h1>
+            تم تسجيل الدخول بنجاح
+          </h1>
+
+          <p>
+            مرحبًا بكِ في لوحة إدارة
+            حسابات منصة نور
+          </p>
+
+        </div>
+      </main>
+    )
+  }
+
 
   return (
     <main
@@ -41,6 +123,7 @@ function AdminLogin() {
         <p>
           مدرسة شمساء الخليلي
         </p>
+
 
         <form
           className="admin-login-form"
@@ -82,14 +165,24 @@ function AdminLogin() {
           />
 
 
+          {error && (
+            <div className="admin-error">
+              {error}
+            </div>
+          )}
+
+
           <button
             type="submit"
             disabled={
+              loading ||
               !username.trim() ||
               !password.trim()
             }
           >
-            تسجيل الدخول
+            {loading
+              ? "جاري تسجيل الدخول..."
+              : "تسجيل الدخول"}
           </button>
 
         </form>
