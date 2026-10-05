@@ -11,9 +11,11 @@ function UserTypeSelector({
   selected,
   onChange,
 }: Props) {
+
   return (
     <div className="user-type-selector">
 
+      {/* Teacher */}
       <button
         type="button"
         className={
@@ -32,11 +34,12 @@ function UserTypeSelector({
         <strong>معلمة</strong>
 
         <small>
-          الدخول بالرقم الوظيفي
+          الدخول بالرقم المدني
         </small>
       </button>
 
 
+      {/* Parent */}
       <button
         type="button"
         className={
@@ -53,6 +56,30 @@ function UserTypeSelector({
         </span>
 
         <strong>ولي أمر</strong>
+
+        <small>
+          الدخول بالرقم المدني
+        </small>
+      </button>
+
+
+      {/* Student */}
+      <button
+        type="button"
+        className={
+          selected === "student"
+            ? "user-type active"
+            : "user-type"
+        }
+        onClick={() =>
+          onChange("student")
+        }
+      >
+        <span className="user-icon">
+          👩‍🎓
+        </span>
+
+        <strong>طالبة</strong>
 
         <small>
           الدخول بالرقم المدني
