@@ -593,3 +593,166 @@
     font-size: 16px;
   }
 }
+
+/* ============================= */
+/* ADMIN LOGIN */
+/* ============================= */
+
+.admin-page {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px 20px;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(46, 125, 107, 0.13),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #f7faf9,
+      #edf7f4
+    );
+
+  font-family: "Tahoma", "Arial", sans-serif;
+}
+
+.admin-login-card {
+  width: 100%;
+  max-width: 430px;
+
+  padding: 40px;
+
+  background: white;
+
+  border: 1px solid #e1ebe8;
+  border-radius: 22px;
+
+  box-shadow:
+    0 20px 60px
+    rgba(30, 70, 60, 0.1);
+
+  text-align: center;
+}
+
+.admin-icon {
+  width: 65px;
+  height: 65px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background: #edf7f4;
+
+  font-size: 28px;
+}
+
+.admin-login-card h1 {
+  margin: 0;
+
+  color: #173f36;
+
+  font-size: 22px;
+}
+
+.admin-login-card > p {
+  margin: 8px 0 28px;
+
+  color: #81948e;
+
+  font-size: 12px;
+}
+
+.admin-login-form {
+  text-align: right;
+}
+
+.admin-login-form label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #344e47;
+
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.admin-login-form input {
+  width: 100%;
+
+  padding: 13px 14px;
+
+  border: 1px solid #d5e0dd;
+  border-radius: 10px;
+
+  outline: none;
+
+  font-size: 14px;
+}
+
+.admin-login-form input:focus {
+  border-color: #32836f;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(50, 131, 111, 0.1);
+}
+
+.admin-login-form button {
+  width: 100%;
+
+  margin-top: 18px;
+
+  padding: 13px;
+
+  border: none;
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #287a68,
+      #3c927c
+    );
+
+  color: white;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.admin-login-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-error {
+  margin-top: 12px;
+
+  padding: 10px;
+
+  border: 1px solid #f4c7c3;
+  border-radius: 8px;
+
+  background: #fff5f4;
+
+  color: #b13c32;
+
+  font-size: 11px;
+}
+
+.admin-password-label {
+  margin-top: 16px;
+}

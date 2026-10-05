@@ -1,5 +1,7 @@
 import { useState } from "react"
 
+import AdminLogin from "./admin/AdminLogin"
+
 import "./App.css"
 
 import UserTypeSelector
@@ -22,6 +24,8 @@ import type {
 
 function App() {
 
+  
+
   const [userType, setUserType] =
     useState<UserType>("teacher")
 
@@ -33,6 +37,13 @@ function App() {
 
   const [loading, setLoading] =
     useState(false)
+
+     const isAdminPage =
+    window.location.pathname === "/admin"
+
+  if (isAdminPage) {
+    return <AdminLogin />
+  }
 
 
   async function handleSubmit(
