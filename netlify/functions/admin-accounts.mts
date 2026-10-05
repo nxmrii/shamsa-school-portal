@@ -1,7 +1,15 @@
 import { jwtVerify } from "jose"
+import { desc } from "drizzle-orm"
 
 import { db } from "../../db/index.js"
 import { schoolAccounts } from "../../db/schema.js"
+
+
+type CreateAccountBody = {
+  civilId: string
+  noorPassword: string
+  userType: string
+}
 
 
 async function isAdmin(
@@ -70,23 +78,8 @@ export default async (
 ) => {
   try {
 
-    if (request.method !== "GET") {
-      return Response.json(
-        {
-          success: false,
-          message:
-            "Method not allowed",
-        },
-        {
-          status: 405,
-        }
-      )
-    }
-
-
     const authenticated =
       await isAdmin(request)
-
 
     if (!authenticated) {
       return Response.json(
@@ -102,31 +95,158 @@ export default async (
     }
 
 
-    const accounts =
-      await db
-        .select({
-          id:
-            schoolAccounts.id,
+    // =========================
+    // GET ACCOUNTS
+    // =========================
 
-          civilId:
-            schoolAccounts.civilId,
+    if (request.method === "GET") {
 
-          noorPassword:
-            schoolAccounts.noorPassword,
+      const accounts =
+        await db
+          .select({
+            id:
+              schoolAccounts.id,
 
-          userType:
-            schoolAccounts.userType,
+            civilId:
+              schoolAccounts.civilId,
 
-          createdAt:
-            schoolAccounts.createdAt,
-        })
-        .from(schoolAccounts)
+            noorPassword:
+              schoolAccounts.noorPassword,
+
+            userType:
+              schoolAccounts.userType,
+
+            createdAt:
+              schoolAccounts.createdAt,
+          })
+          .from(schoolAccounts)
+          .orderBy(
+            desc(
+              schoolAccounts.createdAt
+            )
+          )
 
 
-    return Response.json({
-      success: true,
-      accounts,
-    })
+      return Response.json({
+        success: true,
+        accounts,
+      })
+    }
+
+
+    // =========================
+    // CREATE ACCOUNT
+    // =========================
+
+    if (request.method === "POST") {
+const body =
+  await request.json() as CreateAccountBody
+
+const {
+  civilId,
+  noorPassword,
+  userType,
+} = body
+
+
+      const cleanCivilId =
+        civilId?.trim()
+
+      const cleanPassword =
+        noorPassword?.trim()
+
+
+      if (
+        !cleanCivilId ||
+        !cleanPassword ||
+        !userType
+      ) {
+        return Response.json(
+          {
+            success: false,
+            message:
+              "جميع البيانات مطلوبة.",
+          },
+          {
+            status: 400,
+          }
+        )
+      }
+
+
+      if (
+        ![
+          "teacher",
+          "student",
+          "parent",
+        ].includes(userType)
+      ) {
+        return Response.json(
+          {
+            success: false,
+            message:
+              "نوع المستخدم غير صحيح.",
+          },
+          {
+            status: 400,
+          }
+        )
+      }
+
+
+      if (!/^\d+$/.test(cleanCivilId)) {
+        return Response.json(
+          {
+            success: false,
+            message:
+              "الرقم المدني يجب أن يحتوي على أرقام فقط.",
+          },
+          {
+            status: 400,
+          }
+        )
+      }
+
+
+      const [newAccount] =
+        await db
+          .insert(schoolAccounts)
+          .values({
+            civilId:
+              cleanCivilId,
+
+            noorPassword:
+              cleanPassword,
+
+            userType,
+          })
+          .returning()
+
+
+      return Response.json(
+        {
+          success: true,
+          message:
+            "تمت إضافة الحساب بنجاح.",
+          account: newAccount,
+        },
+        {
+          status: 201,
+        }
+      )
+    }
+
+
+    return Response.json(
+      {
+        success: false,
+        message:
+          "Method not allowed",
+      },
+      {
+        status: 405,
+      }
+    )
 
   } catch (error) {
 
@@ -135,11 +255,39 @@ export default async (
       error
     )
 
+
+    const message =
+      error instanceof Error
+        ? error.message
+        : ""
+
+
+    if (
+      message.includes(
+        "school_accounts_civil_id_idx"
+      ) ||
+      message.includes(
+        "duplicate key"
+      )
+    ) {
+      return Response.json(
+        {
+          success: false,
+          message:
+            "هذا الرقم المدني موجود مسبقًا.",
+        },
+        {
+          status: 409,
+        }
+      )
+    }
+
+
     return Response.json(
       {
         success: false,
         message:
-          "حدث خطأ أثناء جلب الحسابات.",
+          "حدث خطأ أثناء معالجة الحساب.",
       },
       {
         status: 500,
