@@ -1,0 +1,126 @@
+{
+  "version": "8",
+  "dialect": "postgres",
+  "id": "96eacb5c-0dc3-4f7e-93bd-2574f55eb36d",
+  "prevIds": [
+    "d9a01b37-3f97-4ccf-b5f3-f087e9196dbb"
+  ],
+  "ddl": [
+    {
+      "isRlsEnabled": false,
+      "name": "school_accounts",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "type": "serial",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "school_accounts"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "civil_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "school_accounts"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "noor_password",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "school_accounts"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "user_type",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "school_accounts"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "school_accounts"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "school_accounts"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "civil_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": true,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "school_accounts_civil_id_idx",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "school_accounts"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "school_accounts_pkey",
+      "schema": "public",
+      "table": "school_accounts",
+      "entityType": "pks"
+    }
+  ],
+  "renames": []
+}

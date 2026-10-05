@@ -1,0 +1,542 @@
+/* ============================= */
+/* SCHOOL PAGE */
+/* ============================= */
+
+.school-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px 20px;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(46, 125, 107, 0.12),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #f7faf9,
+      #eef7f4
+    );
+
+  font-family: "Tahoma", "Arial", sans-serif;
+}
+
+
+/* ============================= */
+/* MAIN CARD */
+/* ============================= */
+
+.school-card {
+  width: 100%;
+  max-width: 540px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eeeb;
+  border-radius: 24px;
+
+  padding: 40px;
+
+  box-shadow:
+    0 20px 60px
+    rgba(30, 70, 60, 0.1);
+}
+
+
+/* ============================= */
+/* HEADER */
+/* ============================= */
+
+.school-header {
+  text-align: center;
+
+  padding-bottom: 25px;
+
+  border-bottom: 1px solid #edf2f0;
+}
+
+
+.school-logo {
+  width: 68px;
+  height: 68px;
+
+  margin: 0 auto 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #287a68,
+      #3f9b84
+    );
+
+  color: white;
+
+  font-size: 29px;
+  font-weight: bold;
+
+  box-shadow:
+    0 8px 20px
+    rgba(40, 122, 104, 0.2);
+}
+
+
+.school-header h1 {
+  margin: 0;
+
+  color: #173f36;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+
+.school-header p {
+  margin: 8px 0 0;
+
+  color: #7a918b;
+
+  font-size: 13px;
+}
+
+
+/* ============================= */
+/* WELCOME */
+/* ============================= */
+
+.welcome-text {
+  margin: 28px 0 20px;
+
+  text-align: right;
+}
+
+
+.welcome-text h2 {
+  margin: 0;
+
+  color: #1f4d42;
+
+  font-size: 19px;
+}
+
+
+.welcome-text p {
+  margin: 7px 0 0;
+
+  color: #7d8f8a;
+
+  font-size: 12px;
+
+  line-height: 1.8;
+}
+
+
+/* ============================= */
+/* USER TYPE */
+/* ============================= */
+
+.user-type-selector {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 12px;
+
+  margin-bottom: 25px;
+}
+
+
+.user-type {
+  min-height: 125px;
+
+  padding: 17px 12px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #dde8e5;
+  border-radius: 15px;
+
+  background: #ffffff;
+
+  color: #536b65;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.user-type:hover {
+  border-color: #8bbcaf;
+
+  background: #f7fbfa;
+
+  transform: translateY(-2px);
+}
+
+
+.user-type.active {
+  border: 2px solid #32836f;
+
+  background: #f0f8f6;
+
+  color: #236b5a;
+
+  box-shadow:
+    0 5px 15px
+    rgba(50, 131, 111, 0.1);
+}
+
+
+.user-icon {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 28px;
+}
+
+
+.user-type strong {
+  font-size: 14px;
+}
+
+
+.user-type small {
+  margin-top: 6px;
+
+  color: #8da09b;
+
+  font-size: 10px;
+}
+
+
+/* ============================= */
+/* LOGIN FORM */
+/* ============================= */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.login-form label {
+  margin-bottom: 8px;
+
+  color: #344e47;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+.login-form input {
+  width: 100%;
+
+  padding: 13px 14px;
+
+  border: 1px solid #d5e0dd;
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #263c36;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition: 0.2s;
+}
+
+
+.login-form input::placeholder {
+  color: #a2afab;
+}
+
+
+.login-form input:focus {
+  border-color: #32836f;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(50, 131, 111, 0.1);
+}
+
+
+.login-form button {
+  width: 100%;
+
+  margin-top: 17px;
+
+  padding: 13px;
+
+  border: none;
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #287a68,
+      #3c927c
+    );
+
+  color: white;
+
+  font-size: 13px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.login-form button:hover:not(:disabled) {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 7px 18px
+    rgba(40, 122, 104, 0.2);
+}
+
+
+.login-form button:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+
+/* ============================= */
+/* ERROR */
+/* ============================= */
+
+.error-message {
+  margin-bottom: 17px;
+
+  padding: 11px 13px;
+
+  border: 1px solid #f4c7c3;
+  border-radius: 9px;
+
+  background: #fff5f4;
+
+  color: #b13c32;
+
+  font-size: 11px;
+
+  text-align: right;
+}
+
+
+/* ============================= */
+/* PASSWORD RESULT */
+/* ============================= */
+
+.password-result {
+  padding-top: 30px;
+
+  text-align: center;
+}
+
+
+.success-icon {
+  width: 62px;
+  height: 62px;
+
+  margin: 0 auto 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #eaf7f2;
+
+  color: #278269;
+
+  font-size: 28px;
+  font-weight: bold;
+}
+
+
+.password-result h2 {
+  margin: 0;
+
+  color: #1f4d42;
+
+  font-size: 20px;
+}
+
+
+.password-result > p {
+  margin: 8px 0 23px;
+
+  color: #82948f;
+
+  font-size: 12px;
+}
+
+
+/* Password Box */
+
+.password-box {
+  min-height: 58px;
+
+  padding: 10px 13px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  border: 1px solid #d7e5e1;
+  border-radius: 11px;
+
+  background: #f8fbfa;
+
+  direction: ltr;
+}
+
+
+.password-box span {
+  color: #173f36;
+
+  font-family: monospace;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  letter-spacing: 1px;
+
+  word-break: break-all;
+}
+
+
+.password-box button {
+  flex-shrink: 0;
+
+  padding: 7px 11px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: #e5f3ef;
+
+  color: #287a68;
+
+  cursor: pointer;
+
+  font-size: 10px;
+}
+
+
+/* Copy */
+
+.copy-button {
+  width: 100%;
+
+  margin-top: 18px;
+
+  padding: 12px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #287a68;
+
+  color: white;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+
+.copy-button:hover {
+  background: #216857;
+}
+
+
+/* Back */
+
+.back-button {
+  width: 100%;
+
+  margin-top: 9px;
+
+  padding: 11px;
+
+  border: 1px solid #d7e2df;
+  border-radius: 10px;
+
+  background: white;
+
+  color: #627770;
+
+  cursor: pointer;
+}
+
+
+.back-button:hover {
+  background: #f7faf9;
+}
+
+
+/* ============================= */
+/* MOBILE */
+/* ============================= */
+
+@media (max-width: 600px) {
+
+  .school-page {
+    padding: 20px 12px;
+  }
+
+  .school-card {
+    padding: 27px 20px;
+
+    border-radius: 18px;
+  }
+
+  .school-header h1 {
+    font-size: 20px;
+  }
+
+  .school-logo {
+    width: 58px;
+    height: 58px;
+
+    font-size: 24px;
+  }
+
+  .user-type-selector {
+    grid-template-columns: 1fr 1fr;
+
+    gap: 9px;
+  }
+
+  .user-type {
+    min-height: 115px;
+
+    padding: 13px 7px;
+  }
+
+}
