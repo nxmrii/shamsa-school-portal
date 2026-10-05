@@ -1,4 +1,5 @@
 import { useState } from "react"
+import AdminDashboard from "./AdminDashboard"
 
 function AdminLogin() {
   const [username, setUsername] =
@@ -79,29 +80,8 @@ function AdminLogin() {
 
 
   if (success) {
-    return (
-      <main
-        className="admin-page"
-        dir="rtl"
-      >
-        <div className="admin-login-card">
+  return <AdminDashboard />
 
-          <div className="admin-icon">
-            ✓
-          </div>
-
-          <h1>
-            تم تسجيل الدخول بنجاح
-          </h1>
-
-          <p>
-            مرحبًا بكِ في لوحة إدارة
-            حسابات منصة نور
-          </p>
-
-        </div>
-      </main>
-    )
   }
 
 
