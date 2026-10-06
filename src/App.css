@@ -1111,3 +1111,128 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* ============================= */
+/* ACCOUNT ACTION BUTTONS */
+/* ============================= */
+
+.account-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+
+/* EDIT */
+
+.edit-account-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  min-width: 82px;
+  padding: 8px 14px;
+
+  border: 1px solid #b9d9d1;
+  border-radius: 9px;
+
+  background: #eef8f5;
+  color: #287a68;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+
+.edit-account-button:hover {
+  background: #287a68;
+  border-color: #287a68;
+
+  color: #ffffff;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 5px 12px
+    rgba(40, 122, 104, 0.18);
+}
+
+
+/* DELETE */
+
+.delete-account-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  min-width: 82px;
+  padding: 8px 14px;
+
+  border: 1px solid #f0ceca;
+  border-radius: 9px;
+
+  background: #fff5f4;
+  color: #b94a42;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+
+.delete-account-button:hover {
+  background: #b94a42;
+  border-color: #b94a42;
+
+  color: #ffffff;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 5px 12px
+    rgba(185, 74, 66, 0.16);
+}
+
+
+.edit-account-button span,
+.delete-account-button span {
+  font-size: 13px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .account-actions {
+    gap: 5px;
+  }
+
+  .edit-account-button,
+  .delete-account-button {
+    min-width: auto;
+    padding: 7px 10px;
+
+    font-size: 11px;
+  }
+}

@@ -1040,34 +1040,34 @@ function AdminDashboard() {
 
                       <td>
 
-                        <button
-                          type="button"
-                          onClick={() => {
-
-                            setShowAddForm(false)
-
-                            openEditForm(
-                              account
-                            )
-                          }}
-                        >
-                          تعديل
-                        </button>
+                      
+  <button
+    type="button"
+    className="edit-account-button"
+    onClick={() => {
+      setShowAddForm(false)
+      openEditForm(account)
+    }}
+  >
+    <span>✏️</span>
+    تعديل
+  </button>
 
 
                         {" "}
 
 
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleDeleteAccount(
-                              account
-                            )
-                          }
-                        >
-                          حذف
-                        </button>
+                       <button
+    type="button"
+    className="delete-account-button"
+    onClick={() =>
+      handleDeleteAccount(account)
+    }
+  >
+    <span>🗑️</span>
+    حذف
+  </button>
+
 
                       </td>
 
