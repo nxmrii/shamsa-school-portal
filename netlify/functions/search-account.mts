@@ -1,4 +1,7 @@
-import { and, eq } from "drizzle-orm"
+import {
+  and,
+  eq,
+} from "drizzle-orm"
 
 import { db } from "../../db/index.js"
 import { schoolAccounts } from "../../db/schema.js"
@@ -10,9 +13,12 @@ type SearchAccountBody = {
 }
 
 
-export default async (request: Request) => {
+export default async (
+  request: Request
+) => {
   try {
 
+    // البحث فقط عن طريق POST
     if (request.method !== "POST") {
       return Response.json(
         {
@@ -25,13 +31,20 @@ export default async (request: Request) => {
     }
 
 
+    const body =
+      await request.json() as SearchAccountBody
+
+
     const {
       civilId,
       userType,
-    } = await request.json() as SearchAccountBody
+    } = body
 
 
-    if (!civilId || !userType) {
+    if (
+      !civilId ||
+      !userType
+    ) {
       return Response.json(
         {
           error:
@@ -44,28 +57,34 @@ export default async (request: Request) => {
     }
 
 
-    const accounts = await db
-      .select()
-      .from(schoolAccounts)
-      .where(
-        and(
-          eq(
-            schoolAccounts.civilId,
-            civilId
-          ),
-          eq(
-            schoolAccounts.userType,
-            userType
+    const cleanCivilId =
+      civilId.trim()
+
+
+    const accounts =
+      await db
+        .select()
+        .from(schoolAccounts)
+        .where(
+          and(
+            eq(
+              schoolAccounts.civilId,
+              cleanCivilId
+            ),
+            eq(
+              schoolAccounts.userType,
+              userType
+            )
           )
         )
-      )
-      .limit(1)
+        .limit(1)
 
 
     if (accounts.length === 0) {
       return Response.json(
         {
-          error: "Account not found",
+          error:
+            "Account not found",
         },
         {
           status: 404,
@@ -79,12 +98,14 @@ export default async (request: Request) => {
         accounts[0].noorPassword,
     })
 
+
   } catch (error) {
 
     console.error(
       "SEARCH ACCOUNT ERROR:",
       error
     )
+
 
     return Response.json(
       {

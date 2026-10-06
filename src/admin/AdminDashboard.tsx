@@ -29,24 +29,80 @@ function AdminDashboard() {
   const [filter, setFilter] =
     useState("all")
 
-    const [showAddForm, setShowAddForm] =
-  useState(false)
 
-const [newCivilId, setNewCivilId] =
-  useState("")
+  // =========================
+  // ADD ACCOUNT
+  // =========================
 
-const [newPassword, setNewPassword] =
-  useState("")
+  const [
+    showAddForm,
+    setShowAddForm,
+  ] = useState(false)
 
-const [newUserType, setNewUserType] =
-  useState("teacher")
+  const [
+    newCivilId,
+    setNewCivilId,
+  ] = useState("")
 
-const [saving, setSaving] =
-  useState(false)
+  const [
+    newPassword,
+    setNewPassword,
+  ] = useState("")
 
-const [formError, setFormError] =
-  useState("")
+  const [
+    newUserType,
+    setNewUserType,
+  ] = useState("teacher")
 
+  const [
+    saving,
+    setSaving,
+  ] = useState(false)
+
+  const [
+    formError,
+    setFormError,
+  ] = useState("")
+
+
+  // =========================
+  // EDIT ACCOUNT
+  // =========================
+
+  const [
+    editingAccount,
+    setEditingAccount,
+  ] = useState<Account | null>(null)
+
+  const [
+    editCivilId,
+    setEditCivilId,
+  ] = useState("")
+
+  const [
+    editPassword,
+    setEditPassword,
+  ] = useState("")
+
+  const [
+    editUserType,
+    setEditUserType,
+  ] = useState("teacher")
+
+  const [
+    updating,
+    setUpdating,
+  ] = useState(false)
+
+  const [
+    editError,
+    setEditError,
+  ] = useState("")
+
+
+  // =========================
+  // LOAD ACCOUNTS
+  // =========================
 
   useEffect(() => {
     loadAccounts()
@@ -54,14 +110,16 @@ const [formError, setFormError] =
 
 
   async function loadAccounts() {
+
     setLoading(true)
     setError("")
 
     try {
 
-      const response = await fetch(
-        "/.netlify/functions/admin-accounts"
-      )
+      const response =
+        await fetch(
+          "/.netlify/functions/admin-accounts"
+        )
 
       const data =
         await response.json()
@@ -100,6 +158,10 @@ const [formError, setFormError] =
   }
 
 
+  // =========================
+  // FILTER ACCOUNTS
+  // =========================
+
   const filteredAccounts =
     accounts.filter((account) => {
 
@@ -119,97 +181,109 @@ const [formError, setFormError] =
     })
 
 
-    async function handleAddAccount(
-  e: React.FormEvent
-) {
-  e.preventDefault()
+  // =========================
+  // ADD ACCOUNT
+  // =========================
 
-  if (
-    !newCivilId.trim() ||
-    !newPassword.trim()
+  async function handleAddAccount(
+    e: React.FormEvent
   ) {
-    setFormError(
-      "يرجى إدخال جميع البيانات."
-    )
 
-    return
-  }
+    e.preventDefault()
 
-
-  setSaving(true)
-  setFormError("")
-
-
-  try {
-
-    const response = await fetch(
-      "/.netlify/functions/admin-accounts",
-      {
-        method: "POST",
-
-        headers: {
-          "Content-Type":
-            "application/json",
-        },
-
-        body: JSON.stringify({
-          civilId:
-            newCivilId.trim(),
-
-          noorPassword:
-            newPassword.trim(),
-
-          userType:
-            newUserType,
-        }),
-      }
-    )
-
-
-    const data =
-      await response.json()
-
-
-    if (!response.ok) {
+    if (
+      !newCivilId.trim() ||
+      !newPassword.trim()
+    ) {
 
       setFormError(
-        data.message ||
-        "تعذر إضافة الحساب."
+        "يرجى إدخال جميع البيانات."
       )
 
       return
     }
 
 
-    setNewCivilId("")
-    setNewPassword("")
-    setNewUserType("teacher")
-
-    setShowAddForm(false)
-
-    await loadAccounts()
+    setSaving(true)
+    setFormError("")
 
 
-  } catch (error) {
+    try {
 
-    console.error(
-      "ADD ACCOUNT ERROR:",
-      error
-    )
+      const response =
+        await fetch(
+          "/.netlify/functions/admin-accounts",
+          {
+            method: "POST",
 
-    setFormError(
-      "حدث خطأ أثناء الاتصال بالخادم."
-    )
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
 
-  } finally {
+            body: JSON.stringify({
+              civilId:
+                newCivilId.trim(),
 
-    setSaving(false)
+              noorPassword:
+                newPassword.trim(),
+
+              userType:
+                newUserType,
+            }),
+          }
+        )
+
+
+      const data =
+        await response.json()
+
+
+      if (!response.ok) {
+
+        setFormError(
+          data.message ||
+          "تعذر إضافة الحساب."
+        )
+
+        return
+      }
+
+
+      setNewCivilId("")
+      setNewPassword("")
+      setNewUserType("teacher")
+
+      setShowAddForm(false)
+
+      await loadAccounts()
+
+    } catch (error) {
+
+      console.error(
+        "ADD ACCOUNT ERROR:",
+        error
+      )
+
+      setFormError(
+        "حدث خطأ أثناء الاتصال بالخادم."
+      )
+
+    } finally {
+
+      setSaving(false)
+    }
   }
-}
+
+
+  // =========================
+  // USER TYPE NAME
+  // =========================
 
   function getUserTypeName(
     type: string
   ) {
+
     if (type === "teacher") {
       return "معلمة"
     }
@@ -226,16 +300,214 @@ const [formError, setFormError] =
   }
 
 
+  // =========================
+  // OPEN EDIT FORM
+  // =========================
+
+  function openEditForm(
+    account: Account
+  ) {
+
+    setEditingAccount(account)
+
+    setEditCivilId(
+      account.civilId
+    )
+
+    setEditPassword(
+      account.noorPassword
+    )
+
+    setEditUserType(
+      account.userType
+    )
+
+    setEditError("")
+  }
+
+
+  // =========================
+  // UPDATE ACCOUNT
+  // =========================
+
+  async function handleUpdateAccount(
+    e: React.FormEvent
+  ) {
+
+    e.preventDefault()
+
+    if (!editingAccount) {
+      return
+    }
+
+
+    if (
+      !editCivilId.trim() ||
+      !editPassword.trim()
+    ) {
+
+      setEditError(
+        "يرجى إدخال جميع البيانات."
+      )
+
+      return
+    }
+
+
+    setUpdating(true)
+    setEditError("")
+
+
+    try {
+
+      const response =
+        await fetch(
+          "/.netlify/functions/admin-accounts",
+          {
+            method: "PUT",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify({
+              id:
+                editingAccount.id,
+
+              civilId:
+                editCivilId.trim(),
+
+              noorPassword:
+                editPassword.trim(),
+
+              userType:
+                editUserType,
+            }),
+          }
+        )
+
+
+      const data =
+        await response.json()
+
+
+      if (!response.ok) {
+
+        setEditError(
+          data.message ||
+          "تعذر تعديل الحساب."
+        )
+
+        return
+      }
+
+
+      setEditingAccount(null)
+
+      await loadAccounts()
+
+    } catch (error) {
+
+      console.error(
+        "UPDATE ACCOUNT ERROR:",
+        error
+      )
+
+      setEditError(
+        "حدث خطأ أثناء تعديل الحساب."
+      )
+
+    } finally {
+
+      setUpdating(false)
+    }
+  }
+
+
+  // =========================
+  // DELETE ACCOUNT
+  // =========================
+
+  async function handleDeleteAccount(
+    account: Account
+  ) {
+
+    const confirmed =
+      window.confirm(
+        `هل أنتِ متأكدة من حذف الحساب رقم ${account.civilId}؟`
+      )
+
+
+    if (!confirmed) {
+      return
+    }
+
+
+    try {
+
+      const response =
+        await fetch(
+          `/.netlify/functions/admin-accounts?id=${account.id}`,
+          {
+            method: "DELETE",
+          }
+        )
+
+
+      const data =
+        await response.json()
+
+
+      if (!response.ok) {
+
+        window.alert(
+          data.message ||
+          "تعذر حذف الحساب."
+        )
+
+        return
+      }
+
+
+      await loadAccounts()
+
+    } catch (error) {
+
+      console.error(
+        "DELETE ACCOUNT ERROR:",
+        error
+      )
+
+      window.alert(
+        "حدث خطأ أثناء حذف الحساب."
+      )
+    }
+  }
+
+
+  // =========================
+  // PAGE
+  // =========================
+
   return (
+
     <main
       className="admin-dashboard"
       dir="rtl"
     >
+
       <div className="admin-dashboard-container">
+
+
+        {/* ========================= */}
+        {/* HEADER */}
+        {/* ========================= */}
 
         <header className="admin-dashboard-header">
 
           <div>
+
             <h1>
               لوحة إدارة حسابات منصة نور
             </h1>
@@ -243,7 +515,9 @@ const [formError, setFormError] =
             <p>
               مدرسة شمساء الخليلي
             </p>
+
           </div>
+
 
           <button
             className="admin-logout-button"
@@ -254,6 +528,10 @@ const [formError, setFormError] =
 
         </header>
 
+
+        {/* ========================= */}
+        {/* WELCOME */}
+        {/* ========================= */}
 
         <section className="admin-welcome">
 
@@ -269,6 +547,10 @@ const [formError, setFormError] =
         </section>
 
 
+        {/* ========================= */}
+        {/* ACTIONS */}
+        {/* ========================= */}
+
         <section className="admin-actions">
 
           <input
@@ -276,156 +558,333 @@ const [formError, setFormError] =
             value={search}
             placeholder="🔎 البحث بالرقم المدني"
             onChange={(e) =>
-              setSearch(e.target.value)
+              setSearch(
+                e.target.value
+              )
             }
           />
 
-         <button
-  type="button"
-  onClick={() => {
-    setFormError("")
-    setShowAddForm(true)
-  }}
->
-  + إضافة حساب
-</button>
+
+          <button
+            type="button"
+            onClick={() => {
+
+              setFormError("")
+
+              setEditingAccount(null)
+
+              setShowAddForm(true)
+            }}
+          >
+            + إضافة حساب
+          </button>
 
         </section>
 
+
+        {/* ========================= */}
+        {/* ADD FORM */}
+        {/* ========================= */}
+
         {showAddForm && (
 
-  <div className="admin-form-card">
+          <div className="admin-form-card">
 
-    <div className="admin-form-header">
+            <div className="admin-form-header">
 
-      <div>
-        <h3>
-          إضافة حساب جديد
-        </h3>
+              <div>
 
-        <p>
-          أدخلي بيانات حساب منصة نور
-        </p>
-      </div>
+                <h3>
+                  إضافة حساب جديد
+                </h3>
 
-      <button
-        type="button"
-        className="admin-close-button"
-        onClick={() =>
-          setShowAddForm(false)
-        }
-      >
-        ×
-      </button>
+                <p>
+                  أدخلي بيانات حساب منصة نور
+                </p>
 
-    </div>
+              </div>
 
 
-    <form
-      onSubmit={handleAddAccount}
-      className="admin-account-form"
-    >
+              <button
+                type="button"
+                className="admin-close-button"
+                onClick={() =>
+                  setShowAddForm(false)
+                }
+              >
+                ×
+              </button>
 
-      <label>
-        نوع المستخدم
-      </label>
-
-      <select
-        value={newUserType}
-        onChange={(e) =>
-          setNewUserType(
-            e.target.value
-          )
-        }
-      >
-        <option value="teacher">
-          معلمة
-        </option>
-
-        <option value="student">
-          طالبة
-        </option>
-
-        <option value="parent">
-          ولي أمر
-        </option>
-      </select>
+            </div>
 
 
-      <label>
-        الرقم المدني
-      </label>
+            <form
+              onSubmit={
+                handleAddAccount
+              }
+              className="admin-account-form"
+            >
 
-      <input
-        type="text"
-        inputMode="numeric"
-        value={newCivilId}
-        placeholder="أدخل الرقم المدني"
-        onChange={(e) =>
-          setNewCivilId(
-            e.target.value.replace(
-              /\D/g,
-              ""
-            )
-          )
-        }
-      />
+              <label>
+                نوع المستخدم
+              </label>
 
 
-      <label>
-        كلمة مرور منصة نور
-      </label>
+              <select
+                value={newUserType}
+                onChange={(e) =>
+                  setNewUserType(
+                    e.target.value
+                  )
+                }
+              >
 
-      <input
-        type="text"
-        value={newPassword}
-        placeholder="أدخل كلمة المرور"
-        onChange={(e) =>
-          setNewPassword(
-            e.target.value
-          )
-        }
-      />
+                <option value="teacher">
+                  معلمة
+                </option>
 
+                <option value="student">
+                  طالبة
+                </option>
 
-      {formError && (
-        <div className="admin-error">
-          {formError}
-        </div>
-      )}
+                <option value="parent">
+                  ولي أمر
+                </option>
 
-
-      <div className="admin-form-buttons">
-
-        <button
-          type="button"
-          className="admin-cancel-button"
-          onClick={() =>
-            setShowAddForm(false)
-          }
-        >
-          إلغاء
-        </button>
+              </select>
 
 
-        <button
-          type="submit"
-          className="admin-save-button"
-          disabled={saving}
-        >
-          {saving
-            ? "جاري الإضافة..."
-            : "إضافة الحساب"}
-        </button>
+              <label>
+                الرقم المدني
+              </label>
 
-      </div>
 
-    </form>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={newCivilId}
+                placeholder="أدخل الرقم المدني"
+                onChange={(e) =>
+                  setNewCivilId(
+                    e.target.value.replace(
+                      /\D/g,
+                      ""
+                    )
+                  )
+                }
+              />
 
-  </div>
 
-)}
+              <label>
+                كلمة مرور منصة نور
+              </label>
 
+
+              <input
+                type="text"
+                value={newPassword}
+                placeholder="أدخل كلمة المرور"
+                onChange={(e) =>
+                  setNewPassword(
+                    e.target.value
+                  )
+                }
+              />
+
+
+              {formError && (
+
+                <div className="admin-error">
+                  {formError}
+                </div>
+
+              )}
+
+
+              <div className="admin-form-buttons">
+
+                <button
+                  type="button"
+                  className="admin-cancel-button"
+                  onClick={() =>
+                    setShowAddForm(false)
+                  }
+                >
+                  إلغاء
+                </button>
+
+
+                <button
+                  type="submit"
+                  className="admin-save-button"
+                  disabled={saving}
+                >
+                  {saving
+                    ? "جاري الإضافة..."
+                    : "إضافة الحساب"}
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+        )}
+
+
+        {/* ========================= */}
+        {/* EDIT FORM */}
+        {/* ========================= */}
+
+        {editingAccount && (
+
+          <div className="admin-form-card">
+
+            <div className="admin-form-header">
+
+              <div>
+
+                <h3>
+                  تعديل الحساب
+                </h3>
+
+                <p>
+                  عدّلي بيانات حساب منصة نور
+                </p>
+
+              </div>
+
+
+              <button
+                type="button"
+                className="admin-close-button"
+                onClick={() =>
+                  setEditingAccount(null)
+                }
+              >
+                ×
+              </button>
+
+            </div>
+
+
+            <form
+              className="admin-account-form"
+              onSubmit={
+                handleUpdateAccount
+              }
+            >
+
+              <label>
+                نوع المستخدم
+              </label>
+
+
+              <select
+                value={editUserType}
+                onChange={(e) =>
+                  setEditUserType(
+                    e.target.value
+                  )
+                }
+              >
+
+                <option value="teacher">
+                  معلمة
+                </option>
+
+                <option value="student">
+                  طالبة
+                </option>
+
+                <option value="parent">
+                  ولي أمر
+                </option>
+
+              </select>
+
+
+              <label>
+                الرقم المدني
+              </label>
+
+
+              <input
+                type="text"
+                inputMode="numeric"
+                value={editCivilId}
+                onChange={(e) =>
+                  setEditCivilId(
+                    e.target.value.replace(
+                      /\D/g,
+                      ""
+                    )
+                  )
+                }
+              />
+
+
+              <label>
+                كلمة مرور منصة نور
+              </label>
+
+
+              <input
+                type="text"
+                value={editPassword}
+                onChange={(e) =>
+                  setEditPassword(
+                    e.target.value
+                  )
+                }
+              />
+
+
+              {editError && (
+
+                <div className="admin-error">
+                  {editError}
+                </div>
+
+              )}
+
+
+              <div className="admin-form-buttons">
+
+                <button
+                  type="button"
+                  className="admin-cancel-button"
+                  onClick={() =>
+                    setEditingAccount(null)
+                  }
+                >
+                  إلغاء
+                </button>
+
+
+                <button
+                  type="submit"
+                  className="admin-save-button"
+                  disabled={updating}
+                >
+                  {updating
+                    ? "جاري الحفظ..."
+                    : "حفظ التعديلات"}
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+        )}
+
+
+        {/* ========================= */}
+        {/* FILTERS */}
+        {/* ========================= */}
 
         <section className="admin-filters">
 
@@ -442,6 +901,7 @@ const [formError, setFormError] =
             الكل
           </button>
 
+
           <button
             className={
               filter === "teacher"
@@ -455,6 +915,7 @@ const [formError, setFormError] =
             المعلمات
           </button>
 
+
           <button
             className={
               filter === "student"
@@ -467,6 +928,7 @@ const [formError, setFormError] =
           >
             الطالبات
           </button>
+
 
           <button
             className={
@@ -484,24 +946,49 @@ const [formError, setFormError] =
         </section>
 
 
+        {/* ========================= */}
+        {/* ERROR */}
+        {/* ========================= */}
+
         {error && (
+
           <div className="admin-error">
             {error}
           </div>
+
         )}
 
+
+        {/* ========================= */}
+        {/* TABLE */}
+        {/* ========================= */}
 
         <section className="admin-table-card">
 
           <table>
 
             <thead>
+
               <tr>
-                <th>الرقم المدني</th>
-                <th>نوع المستخدم</th>
-                <th>كلمة المرور</th>
-                <th>الإجراءات</th>
+
+                <th>
+                  الرقم المدني
+                </th>
+
+                <th>
+                  نوع المستخدم
+                </th>
+
+                <th>
+                  كلمة المرور
+                </th>
+
+                <th>
+                  الإجراءات
+                </th>
+
               </tr>
+
             </thead>
 
 
@@ -510,17 +997,21 @@ const [formError, setFormError] =
               {loading ? (
 
                 <tr>
+
                   <td colSpan={4}>
                     جاري تحميل الحسابات...
                   </td>
+
                 </tr>
 
               ) : filteredAccounts.length === 0 ? (
 
                 <tr>
+
                   <td colSpan={4}>
                     لا توجد حسابات.
                   </td>
+
                 </tr>
 
               ) : (
@@ -534,30 +1025,50 @@ const [formError, setFormError] =
                         {account.civilId}
                       </td>
 
+
                       <td>
                         {getUserTypeName(
                           account.userType
                         )}
                       </td>
 
-                     <td className="noor-password">
-  {account.noorPassword}
-</td>
+
+                      <td className="noor-password">
+                        {account.noorPassword}
+                      </td>
+
 
                       <td>
+
                         <button
                           type="button"
+                          onClick={() => {
+
+                            setShowAddForm(false)
+
+                            openEditForm(
+                              account
+                            )
+                          }}
                         >
                           تعديل
                         </button>
 
+
                         {" "}
+
 
                         <button
                           type="button"
+                          onClick={() =>
+                            handleDeleteAccount(
+                              account
+                            )
+                          }
                         >
                           حذف
                         </button>
+
                       </td>
 
                     </tr>
@@ -573,9 +1084,12 @@ const [formError, setFormError] =
 
         </section>
 
+
       </div>
+
     </main>
   )
 }
+
 
 export default AdminDashboard
