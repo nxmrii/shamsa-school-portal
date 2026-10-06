@@ -1041,6 +1041,8 @@ function AdminDashboard() {
                       <td>
 
                       
+<div className="account-actions">
+
   <button
     type="button"
     className="edit-account-button"
@@ -1053,11 +1055,7 @@ function AdminDashboard() {
     تعديل
   </button>
 
-
-                        {" "}
-
-
-                       <button
+  <button
     type="button"
     className="delete-account-button"
     onClick={() =>
@@ -1067,6 +1065,8 @@ function AdminDashboard() {
     <span>🗑️</span>
     حذف
   </button>
+
+</div>
 
 
                       </td>
